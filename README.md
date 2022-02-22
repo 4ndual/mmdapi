@@ -2,12 +2,10 @@ GET https://l4qgjh8uuj.execute-api.us-east-1.amazonaws.com/mymovieapi
 
 check status
 
-GET https://l4qgjh8uuj.execute-api.us-east-1.amazonaws.com/mymovieapi/movie?sk=movie#tt0482571 
+GET https://l4qgjh8uuj.execute-api.us-east-1.amazonaws.com/mymovieapi/movie?imdbid=tt0482571 
 
-get a movie or serie by id "<type>#<imdbid>" (other ids: movie#tt0109830,
-movie#tt5727208,
-tvSeries#tt5180504,
-tvSeries#tt5071412)
+get a movie or serie by id  movie?imdbid=tt0482571  (other ids: tt0109830,
+tt5727208)
 
 GET https://l4qgjh8uuj.execute-api.us-east-1.amazonaws.com/mymovieapi/movies GET all movies
 
