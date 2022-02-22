@@ -14,11 +14,25 @@ GET https://l4qgjh8uuj.execute-api.us-east-1.amazonaws.com/mymovieapi/movies GET
 
 POST https://l4qgjh8uuj.execute-api.us-east-1.amazonaws.com/mymovieapi/movie
 content-type: application/json
-
 {
-  "imdbid":"tes",
-  "movie":"tes"
+Genres: "Biography, Crime, Drama",
+Year: "1990",
+gsi1: "all",
+Date Rated: "2020-05-04",
+Type: "movie",
+URL: "https://www.imdb.com/title/tt0099685/",
+Title: "Goodfellas",
+Num Votes: "1100652",
+Release Date: "1990-09-09",
+IMDb Rating: "8.7",
+sk: "movie#tt0099685",
+Runtime (mins): "146",
+imdbid: "tt0099685",
+pk: "rated",
+Directors: "Martin Scorsese",
+Rating: 10
 }
+#required: pk, sk, gsi1, Directors, Rating,  IMDb Rating, Year
 
 PATCH  https://l4qgjh8uuj.execute-api.us-east-1.amazonaws.com/mymovieapi/movie
 
@@ -34,7 +48,8 @@ update a existing movie by id
 DELETE https://l4qgjh8uuj.execute-api.us-east-1.amazonaws.com/mymovieapi/movie
 
 {
-    "imdbid": "tes"
+    "pk": "tes"
+    "sk: ""
 }
 
 delete a existing movie by id
