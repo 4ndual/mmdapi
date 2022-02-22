@@ -2,12 +2,12 @@ GET https://l4qgjh8uuj.execute-api.us-east-1.amazonaws.com/mymovieapi
 
 check status
 
-GET https://l4qgjh8uuj.execute-api.us-east-1.amazonaws.com/mymovieapi/movie?imdbid=tt0482571 
+GET https://l4qgjh8uuj.execute-api.us-east-1.amazonaws.com/mymovieapi/movie?sk=movie#tt0482571 
 
-get a movie by id (otros ids: tt0109830
-tt5727208
-tt1392214
-tt11126994)
+get a movie or serie by id "<type>#<imdbid>" (other ids: movie#tt0109830,
+movie#tt5727208,
+tvSeries#tt5180504,
+tvSeries#tt5071412)
 
 GET https://l4qgjh8uuj.execute-api.us-east-1.amazonaws.com/mymovieapi/movies GET all movies
 
@@ -40,9 +40,10 @@ PATCH  https://l4qgjh8uuj.execute-api.us-east-1.amazonaws.com/mymovieapi/movie
 
 
 {
-    "imdbid": "tes",
-    "updateKey":"movie",
-    "updateValues":"test"
+    "pk": "rated",
+    "sk": "movie#tt0099685"
+    "updateKey":"Title",
+    "updateValues":"The Goodfellas"
 }
 
 update a existing movie by id
@@ -50,8 +51,8 @@ update a existing movie by id
 DELETE https://l4qgjh8uuj.execute-api.us-east-1.amazonaws.com/mymovieapi/movie
 
 {
-    "pk": "tes"
-    "sk: ""
+    "pk": "rated"
+    "sk: "movie#tt0099685"
 }
 
 delete a existing movie by id
