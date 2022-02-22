@@ -22,8 +22,8 @@ class Response:
         #if pathis"/" return default body and status else:
         if self.path != "":
             
-            #1 get  path in Path class ex: Path.Movie 
-            #2 call buildResponse with the path ex: buildResponse(Path.Movie)
+            #1 get  key in path dictionary: path["movie"] 
+            #2 call buildResponse with the path ex: buildResponse(path["movie"])
             self.buildResponse(self.handler.get(self.path,"Error"))
 
         return self.response
