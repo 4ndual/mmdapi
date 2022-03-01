@@ -2,6 +2,8 @@
 
 __Build using Serverless, lambda, Dynamodb, api-gateway, CDK, boto3__
 
+__For employers:__ check the lambda folder and the cdk_init_app___language_python folder, I'm be open to advices, I want to get better and write better code every day
+
 ## Test
 
 __Check status:__
