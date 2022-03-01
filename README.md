@@ -1,6 +1,7 @@
-# Welcome to Python project "my movie database api(MMDAPI)" !
+# Welcome to my Python project "my movie database api(MMDAPI)" !
 
-__Build using Serverless, lambda, Dynamodb, api-gateway, CDK, boto3
+__Build using Serverless, lambda, Dynamodb, api-gateway, CDK, boto3__
+
 ## Test
 
 __Check status:__
