@@ -1,0 +1,170 @@
+{
+	"info": {
+		"_postman_id": "64e2537c-429b-4009-bb1c-15b9068f7f3e",
+		"name": "MMDAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET MANY movies",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"Genres\": \"Biography, Crime, Drama\", \"Year\": \"1990\", \"gsi1\": \"all\", \"Date Rated\": \"2020-05-04\", \"Type\": \"movie\", \"URL\": \"https://www.imdb.com/title/tt0099685/\", \"Title\": \"Godfellas\", \"Num Votes\": \"1100652\", \"Release Date\": \"1990-09-09\", \"IMDb Rating\": \"8.7\", \"Runtime (mins)\": \"146\", \"imdbid\": \"t099685\", \"Directors\": \"Martin Scorsese\", \"Rating\": 10 }"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3000/movies",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"movies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET ONE movie",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:3000/movie?imdbid=tt0468569",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"movie"
+					],
+					"query": [
+						{
+							"key": "imdbid",
+							"value": "tt0468569"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST one movie",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"Genres\": \"Biography, Crime, Drama\", \"Year\": \"1990\", \"gsi1\": \"all\", \"Date Rated\": \"2020-05-04\", \"Type\": \"movie\", \"URL\": \"https://www.imdb.com/title/tt0099685/\", \"Title\": \"Goodfellas\", \"Num Votes\": \"1100652\", \"Release Date\": \"1990-09-09\", \"IMDb Rating\": \"8.7\", \"Runtime (mins)\": \"146\", \"imdbid\": \"tt0099685\", \"Directors\": \"Martin Scorsese\", \"Rating\": 10 }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3000/movie",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"movie"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH one movie",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"imdbid\": \"fake\", \"updateKey\":\"Title\", \"updateValues\":\"The Goodfellas\" }\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3000/movie",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"movie"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SAVE one movie",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"imdbid\": \"fake\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:3000/movie",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "3000",
+					"path": [
+						"movie"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

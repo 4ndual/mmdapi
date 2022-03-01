@@ -1,18 +1,27 @@
+# Welcome to Python project "my movie database api(MMDAPI)" !
+
+__Build using Serverless, lambda, Dynamodb, api-gateway, CDK, boto3
+## Test
+
+__Check status:__
+
 GET https://l4qgjh8uuj.execute-api.us-east-1.amazonaws.com/mymovieapi 
 
-check status
+__Get a movie by id:__
 
 GET https://l4qgjh8uuj.execute-api.us-east-1.amazonaws.com/mymovieapi/movie?imdbid=tt0482571 
 
-get a movie or serie by id  movie?imdbid=tt0482571  (other ids: tt0109830,
-tt5727208)
+_Other ids: tt0109830, tt5727208_
 
-GET https://l4qgjh8uuj.execute-api.us-east-1.amazonaws.com/mymovieapi/movies GET all movies
+__Get all movies:__
 
+GET https://l4qgjh8uuj.execute-api.us-east-1.amazonaws.com/mymovieapi/movies 
+
+__Create a movien in db:__
 
 POST https://l4qgjh8uuj.execute-api.us-east-1.amazonaws.com/mymovieapi/movie 
-content-type: application/json
 
+```
 { 
 "Genres": "Biography, Crime, Drama", 
 "Year": "1990", 
@@ -29,22 +38,83 @@ content-type: application/json
 "Directors": "Martin Scorsese", 
 "Rating": 10
  }
+ ```
 
-#required: imdbid, gsi1, Directors, Rating,  IMDb Rating, Year
+_required: imdbid, gsi1, Directors, Rating,  IMDb Rating, Year_
+
+__Update a movie by id__
 
 PATCH  https://l4qgjh8uuj.execute-api.us-east-1.amazonaws.com/mymovieapi/movie
 
-
+ ```
 {
     "imdbid": "tt0099685",
     "updateKey":"Title",
     "updateValues":"The Goodfellas"
 }
+ ```
 
-update a existing movie by id
-
+__Delete a movie by id__
 DELETE https://l4qgjh8uuj.execute-api.us-east-1.amazonaws.com/mymovieapi/movie
-
+ ```
 {"imdbid": "tt0099685" }
+ ```
 
-delete a existing movie by id
+# Install
+
+To manually create a virtualenv on MacOS and Linux:
+
+```
+$ python3 -m venv .venv
+```
+
+After the init process completes and the virtualenv is created, you can use the following
+step to activate your virtualenv.
+
+```
+$ source .venv/bin/activate
+```
+
+If you are a Windows platform, you would activate the virtualenv like this:
+
+```
+% .venv\Scripts\activate.bat
+```
+
+Once the virtualenv is activated, you can install the required dependencies.
+
+```
+$ pip install -r requirements.txt
+```
+
+At this point you can now synthesize the CloudFormation template for this code.
+
+```
+$ cdk synth
+```
+
+to run locally with SAM (requires Docker):
+
+```
+$ sam local start-api
+```
+
+to deploy to aws(requires credentials):
+
+```
+$ cdk deploy
+```
+
+To add additional dependencies, for example other CDK libraries, just add
+them to your `setup.py` file and rerun the `pip install -r requirements.txt`
+command.
+
+## Useful commands
+
+ * `cdk ls`          list all stacks in the app
+ * `cdk synth`       emits the synthesized CloudFormation template
+ * `cdk deploy`      deploy this stack to your default AWS account/region
+ * `cdk diff`        compare deployed stack with current state
+ * `cdk docs`        open CDK documentation
+
+Enjoy!

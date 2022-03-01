@@ -1,0 +1,1236 @@
+Resources:
+  MyLambdaServiceRole4539ECB6:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/MyLambda/ServiceRole/Resource
+  MyLambdaCCE802FB:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket:
+          Fn::Sub: cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}
+        S3Key: be4caf8ffbf32872c9f5cc5660b87aec4ce6316b6579cc9ba9d2fe28b67e4f49.zip
+      Role:
+        Fn::GetAtt:
+          - MyLambdaServiceRole4539ECB6
+          - Arn
+      Handler: handler.main
+      Runtime: python3.8
+    DependsOn:
+      - MyLambdaServiceRole4539ECB6
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/MyLambda/Resource
+      aws:asset:path: /mnt/c/Users/Andual/Documents/Programing/serverless/CDK/cdk_init_app_--language_python/lambda
+      aws:asset:is-bundled: false
+      aws:asset:property: Code
+  cdkfirstsample523C53C6:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: cdk-firstsample
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Resource
+  cdkfirstsampleCloudWatchRole02D8A321:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: apigateway.amazonaws.com
+        Version: "2012-10-17"
+      ManagedPolicyArns:
+        - Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - :iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/CloudWatchRole/Resource
+  cdkfirstsampleAccount18D8E558:
+    Type: AWS::ApiGateway::Account
+    Properties:
+      CloudWatchRoleArn:
+        Fn::GetAtt:
+          - cdkfirstsampleCloudWatchRole02D8A321
+          - Arn
+    DependsOn:
+      - cdkfirstsample523C53C6
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Account
+  cdkfirstsampleDeploymentBD0DA5527cce420fe62ac4aaf37d121cb0a57aeb:
+    Type: AWS::ApiGateway::Deployment
+    Properties:
+      RestApiId:
+        Ref: cdkfirstsample523C53C6
+      Description: Automatically created by the RestApi construct
+    DependsOn:
+      - cdkfirstsampleGET2AB0B764
+      - cdkfirstsamplemovieDELETEEA6F6E3F
+      - cdkfirstsamplemovieGET4A9DFFCA
+      - cdkfirstsamplemoviePATCH3D040E90
+      - cdkfirstsamplemoviePOSTDB0E8624
+      - cdkfirstsamplemovie358B1F31
+      - cdkfirstsamplemoviesGET95CB50B2
+      - cdkfirstsamplemoviesPOSTE70114F6
+      - cdkfirstsamplemoviesE1460D81
+      - cdkfirstsampletvSerieDELETEBDEEAF6C
+      - cdkfirstsampletvSerieGET7B016E16
+      - cdkfirstsampletvSeriePATCHEAEFA475
+      - cdkfirstsampletvSeriePOST894298DD
+      - cdkfirstsampletvSerie84CF618C
+      - cdkfirstsampletvSeriesGET448FF587
+      - cdkfirstsampletvSeriesPOST936FC7E2
+      - cdkfirstsampletvSeries6F072573
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Deployment/Resource
+  cdkfirstsampleDeploymentStageprod0FEBF381:
+    Type: AWS::ApiGateway::Stage
+    Properties:
+      RestApiId:
+        Ref: cdkfirstsample523C53C6
+      DeploymentId:
+        Ref: cdkfirstsampleDeploymentBD0DA5527cce420fe62ac4aaf37d121cb0a57aeb
+      StageName: prod
+    DependsOn:
+      - cdkfirstsampleAccount18D8E558
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/DeploymentStage.prod/Resource
+  cdkfirstsampleGETApiPermissionCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3GET731A98F5:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /
+            - Ref: cdkfirstsampleDeploymentStageprod0FEBF381
+            - /GET/
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/GET/ApiPermission.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.GET..
+  cdkfirstsampleGETApiPermissionTestCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3GETA13CB630:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /test-invoke-stage/GET/
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/GET/ApiPermission.Test.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.GET..
+  cdkfirstsampleGET2AB0B764:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: GET
+      ResourceId:
+        Fn::GetAtt:
+          - cdkfirstsample523C53C6
+          - RootResourceId
+      RestApiId:
+        Ref: cdkfirstsample523C53C6
+      AuthorizationType: NONE
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - MyLambdaCCE802FB
+                  - Arn
+              - /invocations
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/GET/Resource
+  cdkfirstsamplemoviesE1460D81:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Fn::GetAtt:
+          - cdkfirstsample523C53C6
+          - RootResourceId
+      PathPart: movies
+      RestApiId:
+        Ref: cdkfirstsample523C53C6
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/movies/Resource
+  cdkfirstsamplemoviesGETApiPermissionCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3GETmovies364279B0:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /
+            - Ref: cdkfirstsampleDeploymentStageprod0FEBF381
+            - /GET/movies
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/movies/GET/ApiPermission.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.GET..movies
+  cdkfirstsamplemoviesGETApiPermissionTestCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3GETmovies47BFD1B5:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /test-invoke-stage/GET/movies
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/movies/GET/ApiPermission.Test.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.GET..movies
+  cdkfirstsamplemoviesGET95CB50B2:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: GET
+      ResourceId:
+        Ref: cdkfirstsamplemoviesE1460D81
+      RestApiId:
+        Ref: cdkfirstsample523C53C6
+      AuthorizationType: NONE
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - MyLambdaCCE802FB
+                  - Arn
+              - /invocations
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/movies/GET/Resource
+  cdkfirstsamplemoviesPOSTApiPermissionCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3POSTmovies622DDC30:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /
+            - Ref: cdkfirstsampleDeploymentStageprod0FEBF381
+            - /POST/movies
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/movies/POST/ApiPermission.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.POST..movies
+  cdkfirstsamplemoviesPOSTApiPermissionTestCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3POSTmovies97AD540B:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /test-invoke-stage/POST/movies
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/movies/POST/ApiPermission.Test.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.POST..movies
+  cdkfirstsamplemoviesPOSTE70114F6:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: POST
+      ResourceId:
+        Ref: cdkfirstsamplemoviesE1460D81
+      RestApiId:
+        Ref: cdkfirstsample523C53C6
+      AuthorizationType: NONE
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - MyLambdaCCE802FB
+                  - Arn
+              - /invocations
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/movies/POST/Resource
+  cdkfirstsamplemovie358B1F31:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Fn::GetAtt:
+          - cdkfirstsample523C53C6
+          - RootResourceId
+      PathPart: movie
+      RestApiId:
+        Ref: cdkfirstsample523C53C6
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/movie/Resource
+  cdkfirstsamplemovieGETApiPermissionCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3GETmovie449DF3EE:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /
+            - Ref: cdkfirstsampleDeploymentStageprod0FEBF381
+            - /GET/movie
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/movie/GET/ApiPermission.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.GET..movie
+  cdkfirstsamplemovieGETApiPermissionTestCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3GETmovie9A0F9966:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /test-invoke-stage/GET/movie
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/movie/GET/ApiPermission.Test.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.GET..movie
+  cdkfirstsamplemovieGET4A9DFFCA:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: GET
+      ResourceId:
+        Ref: cdkfirstsamplemovie358B1F31
+      RestApiId:
+        Ref: cdkfirstsample523C53C6
+      AuthorizationType: NONE
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - MyLambdaCCE802FB
+                  - Arn
+              - /invocations
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/movie/GET/Resource
+  cdkfirstsamplemoviePOSTApiPermissionCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3POSTmovie6A3F4194:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /
+            - Ref: cdkfirstsampleDeploymentStageprod0FEBF381
+            - /POST/movie
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/movie/POST/ApiPermission.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.POST..movie
+  cdkfirstsamplemoviePOSTApiPermissionTestCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3POSTmovie5CD46B2E:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /test-invoke-stage/POST/movie
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/movie/POST/ApiPermission.Test.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.POST..movie
+  cdkfirstsamplemoviePOSTDB0E8624:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: POST
+      ResourceId:
+        Ref: cdkfirstsamplemovie358B1F31
+      RestApiId:
+        Ref: cdkfirstsample523C53C6
+      AuthorizationType: NONE
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - MyLambdaCCE802FB
+                  - Arn
+              - /invocations
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/movie/POST/Resource
+  cdkfirstsamplemoviePATCHApiPermissionCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3PATCHmovieF3185CE0:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /
+            - Ref: cdkfirstsampleDeploymentStageprod0FEBF381
+            - /PATCH/movie
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/movie/PATCH/ApiPermission.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.PATCH..movie
+  cdkfirstsamplemoviePATCHApiPermissionTestCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3PATCHmovie236DB0F1:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /test-invoke-stage/PATCH/movie
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/movie/PATCH/ApiPermission.Test.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.PATCH..movie
+  cdkfirstsamplemoviePATCH3D040E90:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: PATCH
+      ResourceId:
+        Ref: cdkfirstsamplemovie358B1F31
+      RestApiId:
+        Ref: cdkfirstsample523C53C6
+      AuthorizationType: NONE
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - MyLambdaCCE802FB
+                  - Arn
+              - /invocations
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/movie/PATCH/Resource
+  cdkfirstsamplemovieDELETEApiPermissionCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3DELETEmovie859FA0CC:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /
+            - Ref: cdkfirstsampleDeploymentStageprod0FEBF381
+            - /DELETE/movie
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/movie/DELETE/ApiPermission.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.DELETE..movie
+  cdkfirstsamplemovieDELETEApiPermissionTestCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3DELETEmovieD86C1AC6:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /test-invoke-stage/DELETE/movie
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/movie/DELETE/ApiPermission.Test.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.DELETE..movie
+  cdkfirstsamplemovieDELETEEA6F6E3F:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: DELETE
+      ResourceId:
+        Ref: cdkfirstsamplemovie358B1F31
+      RestApiId:
+        Ref: cdkfirstsample523C53C6
+      AuthorizationType: NONE
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - MyLambdaCCE802FB
+                  - Arn
+              - /invocations
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/movie/DELETE/Resource
+  cdkfirstsampletvSeries6F072573:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Fn::GetAtt:
+          - cdkfirstsample523C53C6
+          - RootResourceId
+      PathPart: tvSeries
+      RestApiId:
+        Ref: cdkfirstsample523C53C6
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/tvSeries/Resource
+  cdkfirstsampletvSeriesGETApiPermissionCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3GETtvSeriesD5FCE245:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /
+            - Ref: cdkfirstsampleDeploymentStageprod0FEBF381
+            - /GET/tvSeries
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/tvSeries/GET/ApiPermission.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.GET..tvSeries
+  cdkfirstsampletvSeriesGETApiPermissionTestCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3GETtvSeries297FD1BF:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /test-invoke-stage/GET/tvSeries
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/tvSeries/GET/ApiPermission.Test.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.GET..tvSeries
+  cdkfirstsampletvSeriesGET448FF587:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: GET
+      ResourceId:
+        Ref: cdkfirstsampletvSeries6F072573
+      RestApiId:
+        Ref: cdkfirstsample523C53C6
+      AuthorizationType: NONE
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - MyLambdaCCE802FB
+                  - Arn
+              - /invocations
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/tvSeries/GET/Resource
+  cdkfirstsampletvSeriesPOSTApiPermissionCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3POSTtvSeries0C216C5C:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /
+            - Ref: cdkfirstsampleDeploymentStageprod0FEBF381
+            - /POST/tvSeries
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/tvSeries/POST/ApiPermission.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.POST..tvSeries
+  cdkfirstsampletvSeriesPOSTApiPermissionTestCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3POSTtvSeriesD1507C08:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /test-invoke-stage/POST/tvSeries
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/tvSeries/POST/ApiPermission.Test.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.POST..tvSeries
+  cdkfirstsampletvSeriesPOST936FC7E2:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: POST
+      ResourceId:
+        Ref: cdkfirstsampletvSeries6F072573
+      RestApiId:
+        Ref: cdkfirstsample523C53C6
+      AuthorizationType: NONE
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - MyLambdaCCE802FB
+                  - Arn
+              - /invocations
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/tvSeries/POST/Resource
+  cdkfirstsampletvSerie84CF618C:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Fn::GetAtt:
+          - cdkfirstsample523C53C6
+          - RootResourceId
+      PathPart: tvSerie
+      RestApiId:
+        Ref: cdkfirstsample523C53C6
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/tvSerie/Resource
+  cdkfirstsampletvSerieGETApiPermissionCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3GETtvSerie205FC310:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /
+            - Ref: cdkfirstsampleDeploymentStageprod0FEBF381
+            - /GET/tvSerie
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/tvSerie/GET/ApiPermission.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.GET..tvSerie
+  cdkfirstsampletvSerieGETApiPermissionTestCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3GETtvSerieA82B3C57:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /test-invoke-stage/GET/tvSerie
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/tvSerie/GET/ApiPermission.Test.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.GET..tvSerie
+  cdkfirstsampletvSerieGET7B016E16:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: GET
+      ResourceId:
+        Ref: cdkfirstsampletvSerie84CF618C
+      RestApiId:
+        Ref: cdkfirstsample523C53C6
+      AuthorizationType: NONE
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - MyLambdaCCE802FB
+                  - Arn
+              - /invocations
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/tvSerie/GET/Resource
+  cdkfirstsampletvSeriePOSTApiPermissionCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3POSTtvSerie7DB6175B:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /
+            - Ref: cdkfirstsampleDeploymentStageprod0FEBF381
+            - /POST/tvSerie
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/tvSerie/POST/ApiPermission.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.POST..tvSerie
+  cdkfirstsampletvSeriePOSTApiPermissionTestCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3POSTtvSerie2B3D2EAD:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /test-invoke-stage/POST/tvSerie
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/tvSerie/POST/ApiPermission.Test.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.POST..tvSerie
+  cdkfirstsampletvSeriePOST894298DD:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: POST
+      ResourceId:
+        Ref: cdkfirstsampletvSerie84CF618C
+      RestApiId:
+        Ref: cdkfirstsample523C53C6
+      AuthorizationType: NONE
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - MyLambdaCCE802FB
+                  - Arn
+              - /invocations
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/tvSerie/POST/Resource
+  cdkfirstsampletvSeriePATCHApiPermissionCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3PATCHtvSerie236EFA5F:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /
+            - Ref: cdkfirstsampleDeploymentStageprod0FEBF381
+            - /PATCH/tvSerie
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/tvSerie/PATCH/ApiPermission.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.PATCH..tvSerie
+  cdkfirstsampletvSeriePATCHApiPermissionTestCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3PATCHtvSerie53FDA235:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /test-invoke-stage/PATCH/tvSerie
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/tvSerie/PATCH/ApiPermission.Test.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.PATCH..tvSerie
+  cdkfirstsampletvSeriePATCHEAEFA475:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: PATCH
+      ResourceId:
+        Ref: cdkfirstsampletvSerie84CF618C
+      RestApiId:
+        Ref: cdkfirstsample523C53C6
+      AuthorizationType: NONE
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - MyLambdaCCE802FB
+                  - Arn
+              - /invocations
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/tvSerie/PATCH/Resource
+  cdkfirstsampletvSerieDELETEApiPermissionCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3DELETEtvSerie295E6573:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /
+            - Ref: cdkfirstsampleDeploymentStageprod0FEBF381
+            - /DELETE/tvSerie
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/tvSerie/DELETE/ApiPermission.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.DELETE..tvSerie
+  cdkfirstsampletvSerieDELETEApiPermissionTestCdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3DELETEtvSerieAA88CE54:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName:
+        Fn::GetAtt:
+          - MyLambdaCCE802FB
+          - Arn
+      Principal: apigateway.amazonaws.com
+      SourceArn:
+        Fn::Join:
+          - ""
+          - - "arn:"
+            - Ref: AWS::Partition
+            - ":execute-api:"
+            - Ref: AWS::Region
+            - ":"
+            - Ref: AWS::AccountId
+            - ":"
+            - Ref: cdkfirstsample523C53C6
+            - /test-invoke-stage/DELETE/tvSerie
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/tvSerie/DELETE/ApiPermission.Test.CdkInitAppLanguagePythonStackcdkfirstsample5DBEE3F3.DELETE..tvSerie
+  cdkfirstsampletvSerieDELETEBDEEAF6C:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      HttpMethod: DELETE
+      ResourceId:
+        Ref: cdkfirstsampletvSerie84CF618C
+      RestApiId:
+        Ref: cdkfirstsample523C53C6
+      AuthorizationType: NONE
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri:
+          Fn::Join:
+            - ""
+            - - "arn:"
+              - Ref: AWS::Partition
+              - ":apigateway:"
+              - Ref: AWS::Region
+              - :lambda:path/2015-03-31/functions/
+              - Fn::GetAtt:
+                  - MyLambdaCCE802FB
+                  - Arn
+              - /invocations
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/cdk-firstsample/Default/tvSerie/DELETE/Resource
+  CDKMetadata:
+    Type: AWS::CDK::Metadata
+    Properties:
+      Analytics: v2:deflate64:H4sIAAAAAAAA/02PwW7CMAyGn4V76sF64VqYdto0VB4AhdTrTJukqh2hquq7LwlM68mf/cf+/7zCroTtRt+5ME1X9HSF+SzadCqOLnOv7bXRML8HZ4S8U8dvt+YTjpaYY7co0hbm2veYhFQXxeVFM6MwVKnEHg7BdCgHzaj0QK0WvOsJ5o9sVCNLNVA+8I+VMT44UW849H6yGDFOV10M3GbXB8RVH0aD2eQT5cc3SXzSn/o0ybwsKgdM++TaJH0FGYKsHyU+eteQ5O+epnjOvZSwh912c2OiYowpySLUj/oL172tcFwBAAA=
+    Metadata:
+      aws:cdk:path: CdkInitAppLanguagePythonStack/CDKMetadata/Default
+    Condition: CDKMetadataAvailable
+Outputs:
+  cdkfirstsampleEndpoint659718E0:
+    Value:
+      Fn::Join:
+        - ""
+        - - https://
+          - Ref: cdkfirstsample523C53C6
+          - .execute-api.
+          - Ref: AWS::Region
+          - "."
+          - Ref: AWS::URLSuffix
+          - /
+          - Ref: cdkfirstsampleDeploymentStageprod0FEBF381
+          - /
+Conditions:
+  CDKMetadataAvailable:
+    Fn::Or:
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - af-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ca-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-northwest-1
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-3
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - sa-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-2
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-2
+Parameters:
+  BootstrapVersion:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /cdk-bootstrap/hnb659fds/version
+    Description: Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]
+Rules:
+  CheckBootstrapVersion:
+    Assertions:
+      - Assert:
+          Fn::Not:
+            - Fn::Contains:
+                - - "1"
+                  - "2"
+                  - "3"
+                  - "4"
+                  - "5"
+                - Ref: BootstrapVersion
+        AssertDescription: CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.
+
